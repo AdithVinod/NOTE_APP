@@ -5,6 +5,7 @@ import { AxiosInstance } from "../../../api/AxiosInstance";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import NavBar from "./NavBar";
 
 function ListNotes() {
   const navigate = useNavigate();
@@ -72,64 +73,67 @@ function ListNotes() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">My Notes</h1>
+    <>
+      <NavBar />
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold text-gray-800">My Notes</h1>
 
-          <button
-            onClick={() => navigate("/addNote")}
-            className="px-6 py-3 bg-teal-600 text-white rounded-lg"
-          >
-            Add Note
-          </button>
-        </div>
+            <button
+              onClick={() => navigate("/addNote")}
+              className="px-6 py-3 bg-teal-600 text-white rounded-lg"
+            >
+              Add Note
+            </button>
+          </div>
 
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-100 border-b">
-                <tr>
-                  <th className="px-6 py-4 text-left">Sl No</th>
-                  <th className="px-6 py-4 text-left">Title</th>
-                  <th className="px-6 py-4 text-left">Content</th>
-                  <th className="px-6 py-4 text-center">Actions</th>
-                </tr>
-              </thead>
-
-              <tbody className="divide-y divide-gray-200">
-                {noteDetails.map((item, index) => (
-                  <tr key={item._id}>
-                    <td className="px-6 py-4">{index + 1}</td>
-
-                    <td className="px-6 py-4">{item.title}</td>
-
-                    <td className="px-6 py-4">{item.content}</td>
-
-                    <td className="px-6 py-4 text-center">
-                      <div className="flex justify-center space-x-3">
-                        <Link to={`/editNote/${item._id}`}>
-                          <button className="px-4 py-2 bg-blue-500 text-white rounded-md">
-                            Edit
-                          </button>
-                        </Link>
-
-                        <button
-                          onClick={() => handleDelete(item._id)}
-                          className="px-4 py-2 bg-orange-500 text-white rounded-md"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-100 border-b">
+                  <tr>
+                    <th className="px-6 py-4 text-left">Sl No</th>
+                    <th className="px-6 py-4 text-left">Title</th>
+                    <th className="px-6 py-4 text-left">Content</th>
+                    <th className="px-6 py-4 text-center">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                <tbody className="divide-y divide-gray-200">
+                  {noteDetails.map((item, index) => (
+                    <tr key={item._id}>
+                      <td className="px-6 py-4">{index + 1}</td>
+
+                      <td className="px-6 py-4">{item.title}</td>
+
+                      <td className="px-6 py-4">{item.content}</td>
+
+                      <td className="px-6 py-4 text-center">
+                        <div className="flex justify-center space-x-3">
+                          <Link to={`/editNote/${item._id}`}>
+                            <button className="px-4 py-2 bg-blue-500 text-white rounded-md">
+                              Edit
+                            </button>
+                          </Link>
+
+                          <button
+                            onClick={() => handleDelete(item._id)}
+                            className="px-4 py-2 bg-orange-500 text-white rounded-md"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -12,7 +12,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/home");
     }
   });
 
@@ -30,7 +30,7 @@ const Login = () => {
           localStorage.setItem("token", response.data.token);
           dispatch(setUserInfo(response.data.user));
           toast.success(response.data.message);
-          navigate("/");
+          navigate("/home");
         }
       });
   };

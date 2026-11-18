@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { logout } from "../../redux/slices/AuthSlice";
 
 function NavBar() {
@@ -12,13 +12,11 @@ function NavBar() {
   // Get logged-in user from Redux
   const user = useSelector((state) => state.auth.userdata);
 
-  console.log(user, "user");
-
   // Logout functionality
   const handleLogout = () => {
     dispatch(logout());
     setOpenNav(false);
-    navigate("/login");
+    navigate("/");
   };
 
   // Close mobile menu on desktop resize
@@ -36,33 +34,36 @@ function NavBar() {
     };
   }, []);
 
-  const navLinks = [
-    { name: "Pages", href: "#pages" },
-    { name: "Account", href: "#account" },
-    { name: "Blocks", href: "#blocks" },
-    { name: "Docs", href: "#docs" },
-    { name: "Contact", href: "#contact" },
-  ];
-
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white px-6 py-4 shadow-sm lg:px-12">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         {/* Logo */}
-        <a href="#home" className="text-2xl font-bold text-gray-900">
-          WebApp<span className="text-blue-600">.</span>
-        </a>
+        <Link to="/home" className="text-2xl font-bold text-gray-900">
+          NoteApp<span className="text-blue-600">.</span>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-gray-600 transition hover:text-blue-600"
-            >
-              {link.name}
-            </a>
-          ))}
+          <Link
+            to="/home"
+            className="text-sm font-medium text-gray-600 transition hover:text-blue-600"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/addnote"
+            className="text-sm font-medium text-gray-600 transition hover:text-blue-600"
+          >
+            Add Note
+          </Link>
+
+          <Link
+            to="/listnote"
+            className="text-sm font-medium text-gray-600 transition hover:text-blue-600"
+          >
+            My Notes
+          </Link>
         </div>
 
         {/* Desktop User and Logout */}
@@ -129,16 +130,29 @@ function NavBar() {
             </p>
           )}
 
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setOpenNav(false)}
-              className="text-sm font-medium text-gray-700 hover:text-blue-600"
-            >
-              {link.name}
-            </a>
-          ))}
+          <Link
+            to="/home"
+            onClick={() => setOpenNav(false)}
+            className="text-sm font-medium text-gray-700 hover:text-blue-600"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/addnote"
+            onClick={() => setOpenNav(false)}
+            className="text-sm font-medium text-gray-700 hover:text-blue-600"
+          >
+            Add Note
+          </Link>
+
+          <Link
+            to="/listnote"
+            onClick={() => setOpenNav(false)}
+            className="text-sm font-medium text-gray-700 hover:text-blue-600"
+          >
+            My Notes
+          </Link>
 
           <button
             onClick={handleLogout}

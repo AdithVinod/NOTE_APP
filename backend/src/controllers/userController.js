@@ -41,7 +41,7 @@ const login = async(req, res)=>{
     try {
         const {email, password} = req.body;
         const user = await User.findOne({email});
-        console.log(user,"jhj")
+        // console.log(user,"jhj")
         if(!user){
             return res.status(404).json({error:"User does not exist"});
         }    
@@ -69,12 +69,16 @@ const login = async(req, res)=>{
 const addNotes = async (req, res) => {
   const { title, content } = req.body;
   try {  
+    const user = req.user;
+    console.log(user, 'userController')
+
     if (!title || !content) {
       return res.status(400).json({ message: "title and content are required" });
     }
     const newNote = new Notes({
       title,
       content,
+      userId: req.user._id
        
     });
     await newNote.save();
@@ -86,7 +90,8 @@ const addNotes = async (req, res) => {
 
 const getNotes = async(req, res)=>{
     try {
-        const notes = await Notes.find().exec();
+        const user = req.user;
+        const notes = await Notes.find({userId: user._id}).exec();
         res.status(200).json({notes})
     } catch (error) {
         res.status(500).json({

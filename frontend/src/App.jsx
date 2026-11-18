@@ -8,6 +8,7 @@ import PrivatePages from "./components/private_pages/PrivatePages";
 import AddNote from "./components/user/AddNote";
 import ListNote from "./components/user/ListNote";
 import EditNote from "./components/user/EditNote";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
@@ -17,12 +18,13 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<LandingPage />} />
 
-          <Route path="/addnote" element={<AddNote />} />
-          <Route path="/listnote" element={<ListNote />} />
-          <Route path="/editnote/:id" element={<EditNote />} />
           <Route element={<PrivatePages />}>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/addnote" element={<AddNote />} />
+            <Route path="/listnote" element={<ListNote />} />
+            <Route path="/editnote/:id" element={<EditNote />} />
           </Route>
         </Routes>
       </Router>
