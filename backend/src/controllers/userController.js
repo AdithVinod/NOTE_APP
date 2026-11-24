@@ -2,6 +2,11 @@ import User from '../model/userModel.js';
 import generateToken from '../utils/generateToken.js';
 import bcrypt from 'bcryptjs';
 import Notes from '../model/notesModel.js'
+import {GoogleGenAI} from '@google/genai'
+
+const ai = new GoogleGenAI({
+    apiKey: process.env.GoogleGenAI
+})
 
 const register = async(req, res) =>{
     const { name, email, password } = req.body;
@@ -162,4 +167,38 @@ const deleteNote = async (req,res) =>{
     }
 }
 
-export {register, login, addNotes, getNotes, getNotesById, updateNote, deleteNote};
+const chatBot = async (req, res)=>{
+    try {
+        const {message} = req.body;
+
+        if(typeof message !== 'string' || !message.trim() || message.length > 2000){
+            return res.status(400).json({
+                success: false,
+                message: 'Please enter a valid message'
+            });
+        }
+
+        const response = await ai.models.generateContent({
+            model: "gemini-3.7-flash",
+            contents: message.trim(),
+            config: {
+                systemInstruction: "You are a helpful AI chatbot." + "Answer questions in simple English.",
+                maxOutputTokens: 500
+            }
+        })
+
+        res.status(200).json({
+            success: true,
+            reply: response.text || "No response generated",
+        });
+    } catch (error) {
+        console.error("Gemini API error: ", error);
+        
+        res.status(500).json({
+            success: true,
+            message: 'Failed to generate AI response'
+        })
+    }
+}
+
+export {register, login, addNotes, getNotes, getNotesById, updateNote, deleteNote, chatBot};
